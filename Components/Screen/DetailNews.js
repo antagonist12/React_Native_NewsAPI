@@ -3,6 +3,7 @@ import React from "react";
 import moment from "moment";
 
 const DetailNews = ({ route: { params } }) => {
+  // Get Data Detail News From Params With Navigation
   const detailNews = {
     title: params.title,
     desc: params.description,

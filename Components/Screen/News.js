@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { useAxiosGet } from "../../Helper/HttpRequest";
 import axios from "axios";
 import {
   View,
@@ -26,29 +25,13 @@ function News({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [pageCurrent, setPageCurrent] = useState(5);
 
-  const url = `https://newsapi.org/v2/top-headlines?country=${Active.value}&page=${pageCurrent}&pageSize=5&apiKey=04d6692c1d8542f690bcc5072e51fcc9`;
+  const url = `https://newsapi.org/v2/top-headlines?country=${Active.value}&page=${pageCurrent}&pageSize=5&apiKey=a29a3ccf7af046b1892c2ab70bd54d82`;
 
-  // useEffect(() => {
-  //   // console.log("useEffect");
-  //   // console.log("useEffect pageCurrent : ", pageCurrent);
-  //   setIsLoading(true);
-
-  //   axios
-  //     .get(url)
-  //     .then((response) => {
-  //       setRequest(response.data);
-  //       setIsLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }, [url]);
-
+  // get Data From API
   const sendGetRequest = async () => {
     try {
       const resp = await axios.get(url);
       setRequest(resp.data);
-      // console.log(...resp.data);
     } catch (err) {
       // Handle Error Here
       console.error(err);
@@ -59,13 +42,7 @@ function News({ navigation }) {
     sendGetRequest();
   }, [url, pageCurrent]);
 
-  // console.log("========");
-  // console.log(Active);
-
-  // let newsAPI = useAxiosGet(url);
-  // console.log("========================");
-  // console.log(request);
-
+  // Render the flat list item
   const renderItem = ({ item, index }) => {
     if (index === 0) {
       return (
@@ -122,6 +99,7 @@ function News({ navigation }) {
     }
   };
 
+  // render the flatlist footer
   let renderFooter = () => {
     return (
       <View style={style.loader}>
@@ -130,25 +108,19 @@ function News({ navigation }) {
     );
   };
 
+  // handling onscroll bottom
   let handleLoadMore = async () => {
-    // alert("hai");
-    // console.log("Function HandleMore");
-    // console.log(stopFetchMore);
     setIsLoading(true);
     if (!stopFetchMore) {
       const response = await axios.get(url);
-      // console.log([response.data]);
       if (response.data === []) return setIsLoading(false);
       setPageCurrent(pageCurrent + 1);
-      // console.log("====================================");
-      // console.log(request.articles);
-      // console.log("====================================");
-      // console.log(response.data.articles);
       setRequest([...request.articles, ...response.data.articles]);
     }
     setIsLoading(false);
   };
 
+  // renderempty data
   let renderEmpty = ({ item }) => {
     return (
       <Text style={{ padding: 10, fontSize: 18, textAlign: "center" }}>
@@ -159,7 +131,6 @@ function News({ navigation }) {
 
   return (
     <View>
-      {/* <Text style={style.title}>News</Text> */}
       <View
         style={{ flexDirection: "row", marginVertical: 15, marginLeft: 15 }}
       >
@@ -180,7 +151,6 @@ function News({ navigation }) {
               United State
             </Text>
           </TouchableOpacity>
-          {/* <View style={style.space}></View> */}
 
           <TouchableOpacity
             style={
@@ -232,11 +202,6 @@ function News({ navigation }) {
               Singapore
             </Text>
           </TouchableOpacity>
-
-          {/* {request.data.author} */}
-
-          {/* <Button title="United Kingdom" onPress={() => Alert.alert("UK")} />
-          <View style={style.space}></View> */}
         </ScrollView>
       </View>
 
@@ -257,22 +222,12 @@ function News({ navigation }) {
 }
 
 const style = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   justifyContent: "flex-start",
-  //   marginHorizontal: 16,
-  //   marginTop: 50,
-  // },
   title: {
     textTransform: "uppercase",
     fontWeight: "bold",
     marginBottom: 30,
     fontSize: 22,
   },
-  // space: {
-  //   width: 10,
-  //   height: 20,
-  // },
   btnSelected: {
     alignItems: "center",
     backgroundColor: "gray",
@@ -300,18 +255,11 @@ const style = StyleSheet.create({
     resizeMode: "contain",
     height: 200,
   },
-  // imagesBottom: {
-  //   margin: 10,
-  //   resizeMode: "contain",
-  //   height: 100,
-  //   width: 100,
-  // },
   loader: {
     marginVertical: 16,
     alignItems: "center",
   },
   itemWrapperTop: {
-    // flexDirection: "row",
     paddingHorizontal: 10,
     paddingBottom: "5%",
     borderBottomWidth: 1,
